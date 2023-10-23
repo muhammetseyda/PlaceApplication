@@ -28,7 +28,7 @@ export default function PlacesScreen() {
   return (
     <ScrollView>
       {places.map((place) => (
-      <Information
+      <Information    
         placeId={place.id}
         key={place.id}
         title={place.name}
