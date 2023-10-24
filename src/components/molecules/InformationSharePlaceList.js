@@ -8,9 +8,9 @@ import { getDataByKey, sharePlaceList } from '../../utils/AsyncStorage/AsyncStor
 import { useNavigation } from '@react-navigation/native';   
 import PlaceShow from './PlaceShow';
 
-export default function InformationSharePlaceList({ title, imageSource, desc, placeId, isExpanded, onInformationPress, storageKey }) {
+export default function InformationSharePlaceList({ placeshow_container_style ,container_style, imageSource, desc, placeId, isExpanded, onInformationPress, storageKey }) {
     const navigation = useNavigation();
-  console.log(storageKey);
+  // console.log(storageKey);
     const [expandedIds, setExpandedIds] = useState([]);
 
   const handleInformationPress = (placeId) => {
@@ -24,11 +24,12 @@ export default function InformationSharePlaceList({ title, imageSource, desc, pl
   };
   const [placeListData, setPlaceListData] = useState([]);
   useEffect(() => {
-    const getPlaceList = async () => {
+    const getPlaceList = async () => { 
       try {
 
         const placeListData = await getDataByKey(storageKey);
-        console.log(placeListData);
+        // console.log("placelistdataa:::::::::::", placeListData);
+
         if(placeListData){
           const parsedData = JSON.parse(placeListData);
           storageKey == 'placeList' ? setPlaceListData(parsedData.placeList) : setPlaceListData(parsedData);
@@ -40,18 +41,17 @@ export default function InformationSharePlaceList({ title, imageSource, desc, pl
     getPlaceList();
   }, []);  
   // const maped = storageKey == 'placeList' ? placeListData.place.places : (sharePlace);
-
     return (
 
         <ScrollView>
       {placeListData.map((place) => (
-        <View key={place.id} style={{backgroundColor: 'white'}}>
+        <View key={place.id} style={{borderRadius: 10}}>
            <TouchableOpacity onPress={() => handleInformationPress(place.id)}>
-      <View style={styles.container}>
+      <View style={[styles.container, container_style]}>
         <View style={styles.textContainer}> 
           <Text style={styles.title}>{place.listName}</Text>
           <Text style={styles.desc}>{place.listDescription}</Text>
-          {expandedIds.includes(place.id) && <PlaceShow placeId={place.id} places={place.sharePlace} navigation={navigation} />
+          {expandedIds.includes(place.id) && <PlaceShow placeId={place.id} places={place.sharePlace} navigation={navigation} placeshow_container_style={placeshow_container_style}/>
           
           }
         </View>
@@ -59,13 +59,13 @@ export default function InformationSharePlaceList({ title, imageSource, desc, pl
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             key={place.id} 
-            onPress={() => navigation.navigate('Place List Detail', { placeListId: place.id })}
+            onPress={() => navigation.navigate('Share Place List Detail', { placeListId: place.id })}
             style={{paddingRight: 10,}}
           ><Text>Detail</Text>
           </TouchableOpacity>
         </View>
         }
-        {expandedIds.includes(place.id) &&
+        {/* {expandedIds.includes(place.id) &&
         <View style={styles.shareContainer}>
           <TouchableOpacity
             key={place.id} 
@@ -74,7 +74,7 @@ export default function InformationSharePlaceList({ title, imageSource, desc, pl
           ><Text>Share</Text>
           </TouchableOpacity>
         </View>
-        }
+        } */}
       </View>
       
     </TouchableOpacity>
@@ -117,4 +117,5 @@ const styles = StyleSheet.create({
       alignSelf: 'flex-start',
       marginTop: 15,
       },
+      
   });

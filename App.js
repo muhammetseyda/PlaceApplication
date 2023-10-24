@@ -18,9 +18,11 @@ import PlaceListDetailScreen from './src/screen/Place/PlaceListDetailScreen';
 import CameraScreen from './src/screen/CameraScreen';
 import SharedPlaceScreen from './src/screen/SharedPlace/SharedPlaceScreen';
 import SwipeScreen from './src/screen/SwipeScreen';
-import SharePlaceDetailScreen from './src/screen/SharedPlace/SharePlaceDetailScreen';
+import SharedPlaceDetailScreen from './src/screen/SharedPlace/SharedPlaceDetailScreen';
 import SharedPlaceListScreen from './src/screen/SharedPlace/SharedPlaceListScreen';
 import ProfileTabScreen from './src/screen/ProfileTabScreen';
+import WeatherScreen from './src/screen/WeatherScreen';
+import SharedPlaceListDetailScreen from './src/screen/SharedPlace/SharedPlaceListDetailScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -59,6 +61,12 @@ const HomeStack = () => (
   }} />
 
 <Stack.Screen name="Swipe" component={SwipeScreen} options={{
+      headerStyle:styles.headerStyle, 
+      headerTitleAlign: 'center',
+      headerTintColor: 'black',
+    }} />
+
+<Stack.Screen name="Weather" component={WeatherScreen} options={{
       headerStyle:styles.headerStyle, 
       headerTitleAlign: 'center',
       headerTintColor: 'black',
@@ -123,7 +131,7 @@ const ShareStack = () => (
       headerTintColor: 'black',
     }} />
 
-<Stack.Screen name="Share Place Detail" component={SharePlaceDetailScreen} options={{
+<Stack.Screen name="Share Place Detail" component={SharedPlaceDetailScreen} options={{
       headerStyle:styles.headerStyle, 
       headerTitleAlign: 'center',
       headerTintColor: 'black',
@@ -134,6 +142,13 @@ const ShareStack = () => (
       headerTitleAlign: 'center',
       headerTintColor: 'black',
     }} />
+
+<Stack.Screen name="Share Place List Detail" component={SharedPlaceListDetailScreen} options={{
+      headerStyle:styles.headerStyle, 
+      headerTitleAlign: 'center',
+      headerTintColor: 'black',
+    }} />
+
   </Stack.Navigator>
 );
 

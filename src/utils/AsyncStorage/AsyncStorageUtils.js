@@ -16,6 +16,22 @@ export async function findPlaceById(placeId) {
   }
 }
 
+export async function findSharedPlaceListById(placeListId) {
+  try {
+    const placesData = await AsyncStorage.getItem('sharedPlaceList');
+    if (placesData) {
+      const parsedData = JSON.parse(placesData);
+      const place = parsedData.find(place => place.id === placeListId);
+      return place;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error('Veri sorgulama hatası:', error);
+    throw error;
+  }
+}
+
 export async function findPlaceListById(placeListId) {
   try {
     const placesListData = await AsyncStorage.getItem('placeList');

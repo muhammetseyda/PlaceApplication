@@ -3,7 +3,7 @@ import React, {useRef, useState} from 'react'
 import { useNavigation } from '@react-navigation/native';   
 import * as Animatable from 'react-native-animatable';
 
-export default function InformationSharePlace({title, imageSource, desc, placeId, isAnimated}) {
+export default function InformationSharePlace({title, imageSource, desc, placeId, isAnimated, container, image_style, title_style,desc_style}) {
     const navigation = useNavigation();
     const [swipeDistance, setSwipeDistance] = useState(0);
     const animatedValue = useRef(new Animated.Value(0)).current;
@@ -60,12 +60,11 @@ export default function InformationSharePlace({title, imageSource, desc, placeId
       <View style={{borderWidth: 0}}>
       <Animatable.View {...panResponder.panHandlers} style={[animatedStyle]}>
         <TouchableOpacity key={placeId} onPress={() => navigation.navigate('Share Place Detail', { placeId: placeId })}>
-            <View style={styles.container}>
-                <Image style={styles.imageStyle} source={imageSource}/>
+            <View style={[styles.container, container]}>
+                <Image style={[styles.imageStyle, image_style]} source={imageSource}/>
                 <View style={styles.textContainer}>
-                    <Text style={styles.title}>{title}</Text>
-                    <Text style={styles.desc}>{desc}</Text>
-                    <Text>{placeId}</Text>
+                    <Text style={[styles.title, title_style]}>{title ? (title.length > 20 ? title.slice(0, 20) + '...' : title) : ''}</Text>
+                    <Text style={[styles.desc, desc_style]}>{desc ? (desc.length > 30 ? desc.slice(0, 30) + '...' : desc) : ''}</Text>
                 </View>
             </View>
       </TouchableOpacity>

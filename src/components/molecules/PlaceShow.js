@@ -1,13 +1,13 @@
 import { StyleSheet, Text, View,ScrollView, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 
-export default function PlaceShow({ placeId, places, navigation }) {
+export default function PlaceShow({ placeId, places, navigation, placeshow_container_style }) {
   return (
-    <ScrollView nestedScrollEnabled={true} style={{maxHeight: 200, backgroundColor:'gray', marginVertical: 10, borderRadius: 10, width: '110%',}}>
+    <ScrollView nestedScrollEnabled={true} style={{maxHeight: 200, backgroundColor:'gray', marginVertical: 10, borderRadius: 10, marginRight:10,}}>
             <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 16}}>Places</Text>
             {places.map(subPlace => ( 
                 <TouchableOpacity key={placeId} onPress={() => navigation.navigate('Place Detail', { placeId: subPlace.id })}>
-                <View style={styles.container}>
+                <View style={[styles.container, placeshow_container_style]}>
                     <Image style={styles.imageStyle} source={require('../../assets/no.png')}/>
                     <View style={styles.textContainer}>
                         <Text style={styles.title}>{subPlace.name}</Text>

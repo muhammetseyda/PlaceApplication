@@ -8,34 +8,7 @@ import { getDataByKey } from '../../utils/AsyncStorage/AsyncStorageUtils';
 import InformationSharePlaceList from '../../components/molecules/InformationSharePlaceList';
 
 export default function SharedPlaceListScreen() {
-  const [expandedIds, setExpandedIds] = useState([]);
-
-  const handleInformationPress = (placeId) => {
-    if (expandedIds.includes(placeId)) {
-      // Eğer tıklanan eleman zaten açıksa, kapatın
-      setExpandedIds(expandedIds.filter(id => id !== placeId));
-    } else {
-      // Aksi takdirde, tıklanan elemanı açın
-      setExpandedIds([...expandedIds, placeId]);
-    }
-  };
-  const [placeListData, setPlaceListData] = useState([]);
-
-  useEffect(() => {
-    const getPlaceList = async () => {
-      try {
-        const key = 'sharedPlaceList';
-        const placeListData = await getDataByKey(key);
-        if(placeListData){
-          const parsedData = JSON.parse(placeListData);
-          setPlaceListData(parsedData.sharedPlaceList);
-        }
-      } catch (error) {
-        console.error("PlaceList alınamadı", error);
-      }
-    };
-    getPlaceList();
-  }, []);
+  
   
 
   return (

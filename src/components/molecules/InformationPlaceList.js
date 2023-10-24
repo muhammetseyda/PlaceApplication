@@ -117,5 +117,6 @@ const styles = StyleSheet.create({
       alignSelf: 'flex-start',
       marginTop: 15,
       backgroundColor: 'red',
+      
       },
   });

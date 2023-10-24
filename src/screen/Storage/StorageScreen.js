@@ -6,6 +6,7 @@ import PlaceListData from '../../components/Data/placeList.json'
 import PlaceData from '../../components/Data/place.json'
 import SharedPlaceData from '../../components/Data/sharedPlace.json'
 import SharedPlaceListData from '../../components/Data/sharedPlaceList.json'
+import { CreateKeys } from '../../utils/AsyncStorage/CreateKeys'
 
 const PlaceListDataString = JSON.stringify(PlaceListData);
 const PlaceDataString = JSON.stringify(PlaceData);
@@ -35,7 +36,7 @@ export default function StorageScreen() {
 
       const GetDataByKeyClick = async () => {
         try {
-            key= 'place'
+            key= 'sharedPlaceList'
           const data = await getDataByKey(key);
           if (data) {
             setModalData(data);   
@@ -63,8 +64,8 @@ export default function StorageScreen() {
 
       const SaveDataByKey = async () =>{
         try {
-            key = 'placeList'
-            jsonData = PlaceListDataString;
+            key = 'sharedPlaceList'
+            jsonData = SharedPlaceListDataString;
             const save = await saveDataByKey(key, jsonData);
             setModalData(jsonData);
             setModalVisible(true);
@@ -102,6 +103,7 @@ export default function StorageScreen() {
       <Button onPress={DeleteDataByKey}> Keye Göre Data Sil </Button>
       <Button onPress={SaveDataByKey}> Data Yükleme </Button>
       <Button onPress={deleteById}> Id ye Göre Data Silme </Button>
+      <Button onPress={CreateKeys}> Keyleri Oluşturma </Button>
     </View>
   )
 }

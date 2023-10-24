@@ -34,6 +34,11 @@ export default function HomeScreen({navigation}) {
         onPress={() => navigation.navigate('Swipe')}
       />
 
+<Button
+        title="Weather"
+        onPress={() => navigation.navigate('Weather')}
+      />
+
     </View>
   )
 }
