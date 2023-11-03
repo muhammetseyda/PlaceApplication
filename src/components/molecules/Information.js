@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row', // İçeriği yatay olarak düzenlemek için
       alignItems: 'center', // İçeriği dikey olarak ortalamak için
       backgroundColor: 'white',
-      borderWidth: 2,
+      borderWidth: 1,
       borderRadius: 10,
       marginHorizontal: 10,
       marginVertical: 5,
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     imageStyle: {
       width: 70, // Fotoğrafın genişliği
       height: 70, // Fotoğrafın yüksekliği
-      borderRadius: 7,
+      borderRadius: 10,
     },
     textContainer: {
       flex: 1, // Metinlerin mevcut alanın tamamını kaplamasını sağlar

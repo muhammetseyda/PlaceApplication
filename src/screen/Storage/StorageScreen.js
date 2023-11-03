@@ -7,6 +7,7 @@ import PlaceData from '../../components/Data/place.json'
 import SharedPlaceData from '../../components/Data/sharedPlace.json'
 import SharedPlaceListData from '../../components/Data/sharedPlaceList.json'
 import { CreateKeys } from '../../utils/AsyncStorage/CreateKeys'
+import { CheckKey } from '../../utils/Api_AsyncStorage/ApiAsyncStorage'
 
 const PlaceListDataString = JSON.stringify(PlaceListData);
 const PlaceDataString = JSON.stringify(PlaceData);
@@ -64,8 +65,8 @@ export default function StorageScreen() {
 
       const SaveDataByKey = async () =>{
         try {
-            key = 'sharedPlaceList'
-            jsonData = SharedPlaceListDataString;
+            key = 'sharedPlace'
+            jsonData = SharedPlaceDataString;
             const save = await saveDataByKey(key, jsonData);
             setModalData(jsonData);
             setModalVisible(true);
@@ -87,6 +88,16 @@ export default function StorageScreen() {
             console.error( ' Veri Yükleme Hatası',error);
         }
       };
+
+      const check = async () => {
+        try {
+            const condition = await CheckKey();
+            setModalData(condition);
+            setModalVisible(true);
+        } catch (error) {
+          console.error("hata : " , error);
+        }
+      };
   return (
     <View>
       <Button onPress={handleGetAllKeysClick}> Bütün Keyler</Button>
@@ -104,6 +115,7 @@ export default function StorageScreen() {
       <Button onPress={SaveDataByKey}> Data Yükleme </Button>
       <Button onPress={deleteById}> Id ye Göre Data Silme </Button>
       <Button onPress={CreateKeys}> Keyleri Oluşturma </Button>
+      <Button onPress={check}> Api BAğlantısı </Button>
     </View>
   )
 }

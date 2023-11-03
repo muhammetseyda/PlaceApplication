@@ -3,20 +3,40 @@ import React, {useState} from 'react'
 import Card from '../atoms/Card'
 import CardSection from '../atoms/CardSection'
 import Button from '../atoms/Button'
+import { Login } from '../../utils/api/Api'
 
 
 export default function LoginForm() {
     const {inputStyle} = styles;
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [loginForm, setloginForm] = useState({
+      email: '',
+      password: '',
+      returnUrl: '',
+      rememberMe: true
+    });
+    console.log(loginForm);
+    const login = async () => {
+      try {
+        Login(loginForm)
+        .then((response) => {
+          console.log("yeni yer eklendi", response.data);
+        })
+        .catch((error) => {
+          console.error("Hata  Login Api" , error);
+        });
+        
+      } catch (error) {
+        console.error("Login Hata", error);
+      }
+    };
   return (
     <Card>
         <CardSection>
           <TextInput
             placeholder="E-mail"
             style={inputStyle}
-            value={email}
-            onChangeText={(newValue) => setEmail(newValue)}
+            value={loginForm.email}
+            onChangeText={(newValue) => setloginForm({ ...loginForm, email: newValue })}
           />
           
         </CardSection>
@@ -26,12 +46,12 @@ export default function LoginForm() {
                 secureTextEntry //şifreyi noktalı gösterme
                 placeholder="Password"
                 style={inputStyle}
-                value={password}
-                onChangeText={(newValue) => setPassword(newValue)}
+                value={loginForm.password}
+                onChangeText={(newValue) => setloginForm({ ...loginForm, password: newValue })}
             />
         </CardSection>
 
-            <Button onPress={() => navigation.navigate}> GİRİŞ </Button>
+            <Button onPress={login}> GİRİŞ </Button>
       </Card>
   )
 }

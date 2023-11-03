@@ -2,10 +2,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export async function findPlaceById(placeId) {
   try {
-    const placesData = await AsyncStorage.getItem('place');
+    const placesData = await AsyncStorage.getItem('placeApi');
     if (placesData) {
       const parsedData = JSON.parse(placesData);
-      const place = parsedData.place.find(place => place.id === placeId);
+      const place = parsedData.find(place => place.id === placeId);
       return place;
     } else {
       return null;

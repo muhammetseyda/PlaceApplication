@@ -8,43 +8,23 @@ import { getDataByKey, sharePlaceList } from '../../utils/AsyncStorage/AsyncStor
 import { useNavigation } from '@react-navigation/native';   
 import PlaceShow from './PlaceShow';
 
-export default function InformationPlaceList({ title, imageSource, desc, placeId, isExpanded, onInformationPress, storageKey }) {
+export default function InformationPlaceList({ place,  title, imageSource, desc, placeId, isExpanded, onInformationPress, storageKey }) {
     const navigation = useNavigation();
-  console.log(storageKey);
     const [expandedIds, setExpandedIds] = useState([]);
-
-  const handleInformationPress = (placeId) => {
-    if (expandedIds.includes(placeId)) {
-      // Eğer tıklanan eleman zaten açıksa, kapatın
-      setExpandedIds(expandedIds.filter(id => id !== placeId));
-    } else {
-      // Aksi takdirde, tıklanan elemanı açın
-      setExpandedIds([...expandedIds, placeId]);
-    }
-  };
-  const [placeListData, setPlaceListData] = useState([]);
-  useEffect(() => {
-    const getPlaceList = async () => {
-      try {
-
-        const placeListData = await getDataByKey(storageKey);
-        console.log(placeListData);
-        if(placeListData){
-          const parsedData = JSON.parse(placeListData);
-          storageKey == 'placeList' ? setPlaceListData(parsedData.placeList) : setPlaceListData(parsedData);
-        }
-      } catch (error) {
-        console.error("PlaceList alınamadı", error); 
+    const handleInformationPress = (placeId) => {
+      if (expandedIds.includes(placeId)) {
+        // Eğer tıklanan eleman zaten açıksa, kapatın
+        setExpandedIds(expandedIds.filter(id => id !== placeId));
+      } else {
+        // Aksi takdirde, tıklanan elemanı açın
+        setExpandedIds([...expandedIds, placeId]);
       }
     };
-    getPlaceList();
-  }, []);  
   // const maped = storageKey == 'placeList' ? placeListData.place.places : (sharePlace);
 
     return (
 
-        <ScrollView horizontal={false} >
-      {placeListData.map((place) => (
+        <ScrollView horizontal={false} nestedScrollEnabled={true}>
         <View key={place.id} style={{backgroundColor: 'white'}}>
            <TouchableOpacity onPress={() => handleInformationPress(place.id)}>
       <View style={styles.container}>
@@ -52,7 +32,6 @@ export default function InformationPlaceList({ title, imageSource, desc, placeId
           <Text style={styles.title}>{place.listName}</Text>
           <Text style={styles.desc}>{place.listDescription}</Text>
           {expandedIds.includes(place.id) && <PlaceShow placeId={place.id} places={place.places} navigation={navigation} />
-          
           }
         </View>
         {!expandedIds.includes(place.id) &&
@@ -79,7 +58,6 @@ export default function InformationPlaceList({ title, imageSource, desc, placeId
       
     </TouchableOpacity>
           </View>
-      ))}
     </ScrollView>
   )
 }

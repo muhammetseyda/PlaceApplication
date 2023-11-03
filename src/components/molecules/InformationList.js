@@ -32,8 +32,8 @@ export default function InformationList({ title, imageSource, desc, placeId, isE
 
 const styles = StyleSheet.create({
     container: {
-      flexDirection: 'row', // İçeriği yatay olarak düzenlemek için
-      alignItems: 'center', // İçeriği dikey olarak ortalamak için
+      flexDirection: 'row', 
+      alignItems: 'center', 
       backgroundColor: 'white',
       borderWidth: 2,
       borderRadius: 10,

@@ -15,7 +15,6 @@ const WeatherData = ({ weatherData }) => {
   
   const styles = StyleSheet.create({
     cardContainer: {
-      backgroundColor: 'white',
       justifyContent: 'center',
       alignItems: 'center',
     },

@@ -6,41 +6,55 @@ import Card from '../atoms/Card'
 import CardSection from '../atoms/CardSection'
 import Information from '../molecules/Information'
 import Button from '../atoms/Button';
+import { useNavigation } from '@react-navigation/native';
+import { postPlaceList } from '../../utils/api/Api';
 
 export default function AddPlaceList() {
-    const [listData, setListData] = useState({
-      id: 15,
-      userId: '',
-      createdDate:'',
-      updateDate:'',
-      listName: '',
-      listDescription: '',
-      places: [],
-      placeIds: [],
-})
+  const navigation = useNavigation();
+  const currentDate = new Date();
+  const [isLoading, setIsLoading] = useState(false);
+  const [listData, setListData] = useState({
+    id: 0,
+    userId: '38b9b5bd-cd6a-45d8-b821-f60a13fa9c77',
+    createdDate: currentDate.toISOString(),
+    updateDate: currentDate.toISOString(),
+    listName: '',
+    listDescription: '',
+    places: [],
+    placeIds: "",
+  })
 const {listName, listDescription,placeIds} = listData;
 const {inputStyle} = styles;
 
 const handleSelectionChange = (placeId, isSelected) => {
   // placesIds'i güncellemek için yeni bir dizi oluşturun
-  const newPlacesIds = isSelected
-    ? [...placeIds, placeId]
-    : placeIds.filter((id) => id !== placeId);
-  setListData({ ...listData, placeIds: newPlacesIds });
+  const newPlaceIds = listData.placeIds.split(',').filter(id => id !== ''); // Mevcut placeIds'i bölmek ve boş öğeleri filtrelemek
+
+  if (isSelected) {
+    newPlaceIds.push(placeId.toString());
+  } else {
+    const index = newPlaceIds.indexOf(placeId.toString());
+    if (index !== -1) {
+      newPlaceIds.splice(index, 1);
+    }
+  }
+
+  // Yeni placeIds'i listData içinde güncelleyin
+  setListData({ ...listData, placeIds: newPlaceIds.join(',') });
 };
 
-const [places, setPlaces] = useState([]); 
+const [places, setPlaces] = useState([]);  
 
   useEffect(() => {
     // AsyncStorage'den verileri al
     const fetchPlacesData = async () => {
       try {
-        const asyncStorageKey = 'place'; // AsyncStorage'de hangi anahtarla saklandığını belirtin
+        const asyncStorageKey = 'placeApi'; // AsyncStorage'de hangi anahtarla saklandığını belirtin
         const placesData = await AsyncStorage.getItem(asyncStorageKey);
         if (placesData) {
           const parsedData = JSON.parse(placesData);
           // console.log(parsedData);
-          setPlaces(parsedData.place);
+          setPlaces(parsedData);
         }
       } catch (error) {
         console.error('Veri alma hatası:', error);
@@ -52,28 +66,41 @@ const [places, setPlaces] = useState([]);
 
   const addPlaceList = async () => {
     try {
-      const placeData = await AsyncStorage.getItem('place');
-    const existingData = await AsyncStorage.getItem('placeList');
+      setIsLoading(true);
+      const placeData = await AsyncStorage.getItem('placeApi');
+    const existingData = await AsyncStorage.getItem('placeListApi');
     const existingDataJSON = existingData ? JSON.parse(existingData) : [];
     const parsedPlaceData = JSON.parse(placeData);
     const formDataWithPlaces = { ...listData, places: [] }; 
 
     for (const placeId of listData.placeIds) {
-      const place = parsedPlaceData.place.find(place => place.id === placeId);
+      const place = parsedPlaceData.find(place => place.id === placeId);
+      console.log(place);
       if (place) {
         formDataWithPlaces.places.push(place);
       }
     };
-    console.log(existingDataJSON);
+    console.log("existing data",formDataWithPlaces);
    
     
-    existingDataJSON.placeList.push(formDataWithPlaces);
+    existingDataJSON.push(formDataWithPlaces);
+    await AsyncStorage.setItem('placeListApi', JSON.stringify(existingDataJSON));
 
-    await AsyncStorage.setItem('placeList', JSON.stringify(existingDataJSON));
-
-    console.log('Yeni veri başarıyla eklendi ve AsyncStorage güncellendi.');
+    postPlaceList(formDataWithPlaces)
+    .then((response) => {
+      console.log("yeni yer eklendi", response);
+      navigation.navigate("Place List");
+    })
+    .catch((error) => {
+      console.error("Hata  Add Place Api" , error);
+    })
+    .finally(() => {
+      setIsLoading(false);
+    });
+   
     } catch (error) {
       console.error('Veri ekleme hatası:', error);
+      setIsLoading(false);  
     }
   };
   console.log(listData);
@@ -105,7 +132,7 @@ const [places, setPlaces] = useState([]);
               
               <View style={styles.checkbox}>
                 <CheckBox
-                   value={placeIds.includes(place.id)}
+                   value={placeIds.includes(place.id.toString())}
                    onValueChange={(newValue) => handleSelectionChange(place.id, newValue)}
                  />
                 </View>
@@ -123,7 +150,9 @@ const [places, setPlaces] = useState([]);
                 ))}
             </ScrollView>
       </CardSection>
-      <Button onPress={addPlaceList}>ADD PLACELİST</Button>
+      <Button onPress={addPlaceList} disabled={isLoading}>
+      {isLoading ? 'Yükleniyor...' : 'ADD PLACELİST'}
+      </Button>
     </Card>
 
   )
