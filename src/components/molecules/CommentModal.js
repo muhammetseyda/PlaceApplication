@@ -1,24 +1,33 @@
 import { Modal, StyleSheet, Text, TouchableOpacity, View, TouchableWithoutFeedback, ScrollView, TextInput } from 'react-native'
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Image } from 'react-native-animatable'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { CommentByListId } from '../../utils/api/Api'
+import { calculateTimeDifference } from '../../helpers/dateHelpers';
 
 
-export default function CommentModal({isVisible, onClose}) {
-    const comments = [
-        "React Native ile hızlı ve etkili bir şekilde mobil uygulamalar geliştirebilirsiniz. Hem iOS hem de Android için aynı kod tabanını kullanmak büyük bir avantajdır.",
-        "React Native, geliştiricilere kullanımı kolay ve zengin bir araç seti sunar. Bu, geliştirme sürecini hızlandırır ve kod tekrarını azaltır.",
-        "Uygulama geliştirmenin yanı sıra, React Native ile oyunlar ve interaktif içerikler oluşturabilirsiniz. Çok yönlü bir çerçeve.",
-        "React Native, Facebook tarafından desteklenir ve büyük bir geliştirici topluluğuna sahiptir. Sorunlarınıza hızlı çözümler bulabilirsiniz.",
-        "Mobil uygulama geliştirme sürecini basitleştiren React Native'i öğrenmek, geleceğe yönelik bir beceri olabilir.",
-        "React Native ile hızlı ve etkili bir şekilde mobil uygulamalar geliştirebilirsiniz. Hem iOS hem de Android için aynı kod tabanını kullanmak büyük bir avantajdır.",
-        "React Native, geliştiricilere kullanımı kolay ve zengin bir araç seti sunar. Bu, geliştirme sürecini hızlandırır ve kod tekrarını azaltır.",
-        "Uygulama geliştirmenin yanı sıra, React Native ile oyunlar ve interaktif içerikler oluşturabilirsiniz. Çok yönlü bir çerçeve.",
-        "React Native, Facebook tarafından desteklenir ve büyük bir geliştirici topluluğuna sahiptir. Sorunlarınıza hızlı çözümler bulabilirsiniz.",
-        "Mobil uygulama geliştirme sürecini basitleştiren React Native'i öğrenmek, geleceğe yönelik bir beceri olabilir."
-      ];
-      const [comments_deger, setComments_deger] = useState(comments);
-      const [comment, setComment] = useState('');
+export default function CommentModal({isVisible, onClose, listid}) {
+    const getCommentById = async (listid) => {
+        try {
+          const response = await CommentByListId(listid);
+          console.log("response: " + response.data);
+          setComments_deger(response.data);
+        } catch (error) {
+            if (error.response && error.response.status === 404) {
+                setComments_deger(["Yorum bulunamadı."])
+              } else {
+                // console.error('Commentmodal', error);
+                throw error;
+              } 
+        }
+      };
+      
+      useEffect(() => {
+        getCommentById(listid); 
+      }, [listid]);
+
+      const [comments_deger, setComments_deger] = useState([]);
+      const [comment, setComment] = useState();
       const addComment = () => {
         if(comment){
             setComments_deger([ ...comments_deger, comment]);
@@ -35,42 +44,52 @@ export default function CommentModal({isVisible, onClose}) {
             setLikeCount(likeCount + 1); // Beğeni artır
           }
       };
+      const [like, setLike] = useState({
+        commentid:'',
+        userid : '',
+        isLiked: false,
+      });
+    //   console.log("Comments: " + comments_deger);
   return (
     <Modal transparent={true} animationType={'slide'} visible={isVisible} style={styles.modalinfo} >
             
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                 
-                    <View style={styles.touchView}>
+                    <View style={styles.touchView}> 
                         <Text>Comments</Text>
                     <ScrollView>
-                       { comments_deger.map((comment) =>  
-                       (<View style={styles.modalInfoDesc}>
+                       { comments_deger != "Yorum bulunamadı." ? comments_deger.map((comment) =>  
+                       (<View key={comment.id} style={styles.modalInfoDesc}>
                             <View style={styles.imageView}>
                                 <Image style={styles.image} source={require('../../assets/profile.png')}></Image>
                             </View>
                             <View style={styles.commentDescView}>
                                 <View style={{flexDirection: 'row'}}>
                                     <View style={styles.nameView}>
-                                        <Text style={styles.nameText}>Muhammet Seyda Armağan</Text>
+                                        <Text style={styles.nameText}>{comment.users.firstName + ' '+comment.users.lastName}</Text>
                                     </View>
                                     <View style={styles.timeView}>
-                                        <Text style={styles.timeText}> 5d önce</Text>
+                                        <Text style={styles.timeText}> {calculateTimeDifference(comment.createdDate)}</Text>
                                     </View>
                                 </View>
                                 <View style={styles.commentView}>
                                     <View>
-                                    <Text> {comment} </Text>
+                                    <Text>{comment.text}</Text>
                                     </View>
                                     <View style={{flexDirection: 'row'}}>
                                         <TouchableOpacity onPress={toggleHeart}>
                                         <FontAwesome5  name="heart"  size={20}  style={{paddingHorizontal: 5, color: isHeartToggle ? 'red' : 'black'}}/>
                                         </TouchableOpacity>
-                                        <Text> {likeCount} beğeni</Text>
+                                        <Text> {comment.likeCount} beğeni</Text>
                                     </View>
                                 </View>
                             </View>
-                        </View> ))}
+                        </View> )) 
+                        : 
+                        <View>
+                            <Text style={{textAlign:'center'}}>Yorum bulunamadı.</Text>
+                        </View>}
 
                         </ScrollView>
 

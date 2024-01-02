@@ -5,7 +5,7 @@ import Information from '../Information';
 import Spinner from '../../atoms/Spinner';
 
 export default function ProfilePlaces({userId}) {
-    console.log(userId);
+    console.log("Userid: "+userId);
     const [placesData, setPlacesData] = useState([]); 
     const fetchPlacesData = async () => {
         try {

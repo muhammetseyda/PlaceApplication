@@ -13,23 +13,15 @@ export default function ShareModal({isVisible, onClose}) {
                 
                     <View style={styles.touchView}>
                         <View style={styles.modalInfoDesc}>
-                        <TouchableOpacity><Text style={styles.modalInfoDescText}>Hesap Hakkında</Text></TouchableOpacity>
+                        <TouchableOpacity><Text style={styles.modalInfoDescText}>Profili Görüntüle</Text></TouchableOpacity>
                         </View>
                         <View style={styles.modalInfoDesc}>
-                        <TouchableOpacity><Text style={styles.modalInfoDescText}>Hesap Hakkında</Text></TouchableOpacity>
+                        <TouchableOpacity><Text style={styles.modalInfoDescText}>Kendi Listelerime Ekle</Text></TouchableOpacity>
                         </View>
                         <View style={styles.modalInfoDesc}>
-                        <TouchableOpacity><Text style={styles.modalInfoDescText}>Hesap Hakkında</Text></TouchableOpacity>
+                        <TouchableOpacity><Text style={styles.modalInfoDescText}>Şikayet Et</Text></TouchableOpacity>
                         </View>
-                        <View style={styles.modalInfoDesc}>
-                        <TouchableOpacity><Text style={styles.modalInfoDescText}>Hesap Hakkında</Text></TouchableOpacity>
-                        </View>
-                        <View style={styles.modalInfoDesc}>
-                        <TouchableOpacity><Text style={styles.modalInfoDescText}>Hesap Hakkında</Text></TouchableOpacity>
-                        </View>
-                        <View style={styles.modalInfoDesc}>
-                        <TouchableOpacity><Text style={styles.modalInfoDescText}>Hesap Hakkında</Text></TouchableOpacity>
-                        </View>
+                        
                     </View>
                     
                 </View>

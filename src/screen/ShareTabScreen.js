@@ -17,7 +17,10 @@ export default function ShareTabScreen({navigation}) {
           title="Share Place List"
           onPress={() => navigation.navigate('Share Place List')}
         />
-    
+      <Button
+          title="Share"
+          onPress={() => navigation.navigate('Share List')}
+        />
          
       </View>
     )

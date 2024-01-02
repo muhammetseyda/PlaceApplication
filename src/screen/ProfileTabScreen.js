@@ -8,7 +8,7 @@ export default function ProfileTabScreen() {
   const [user, setUser] = useState([]);
   const fetchGetUser = async () => {
     try {
-      const response = await getUserByEmail("muhammedseyda@hotmail.com");
+      const response = await getUserByEmail("merve_buken@hotmail.com");
       console.log(response);
       setUser(response.data);
 

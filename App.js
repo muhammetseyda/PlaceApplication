@@ -27,6 +27,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import ShareCardScreen from './src/screen/ShareCardScreen';
 import ApiScreen from './src/screen/ApiScreen';
 import DenemeTabScreen from './src/screen/DenemeTabScreen';
+import ShareListScreens from './src/screen/SharedPlace/ShareListScreens';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -34,6 +35,16 @@ const Tab = createBottomTabNavigator();
 const HomeStack = ()  => (
   <Stack.Navigator>
     <Stack.Screen name="Home" component={HomeTabScreen} />
+    <Stack.Screen name="AccountLogin" component={LoginScreen} options={{
+    headerStyle:styles.headerStyle, 
+    headerTitleAlign: 'center',
+    headerTintColor: 'black',
+  }} />
+  <Stack.Screen name="Register" component={RegisterScreen} options={{
+    headerStyle:styles.headerStyle, 
+    headerTitleAlign: 'center',
+    headerTintColor: 'black',
+  }} />
   </Stack.Navigator>
 );
 
@@ -106,6 +117,12 @@ const ShareStack = () => (
       headerTintColor: 'black',
     }} />
 
+<Stack.Screen name="Share List" component={ShareListScreens} options={{
+      headerStyle:styles.headerStyle, 
+      headerTitleAlign: 'center',
+      headerTintColor: 'black',
+    }} />
+
   </Stack.Navigator>
 );
 
@@ -119,16 +136,8 @@ const DenemeStack = () => (
   <Stack.Navigator>
   <Stack.Screen name="Home" component={DenemeTabScreen} />
   
-<Stack.Screen name="AccountLogin" component={LoginScreen} options={{
-    headerStyle:styles.headerStyle, 
-    headerTitleAlign: 'center',
-    headerTintColor: 'black',
-  }} />
-<Stack.Screen name="Register" component={RegisterScreen} options={{
-    headerStyle:styles.headerStyle, 
-    headerTitleAlign: 'center',
-    headerTintColor: 'black',
-  }} />
+
+
 
 <Stack.Screen name="Storage" component={StorageScreen} options={{
     headerStyle:styles.headerStyle, 

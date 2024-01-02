@@ -19,7 +19,7 @@ export default function LoginForm() {
       try {
         Login(loginForm)
         .then((response) => {
-          console.log("yeni yer eklendi", response.data);
+          console.log("Giriş Yapıldı", response.data);
         })
         .catch((error) => {
           console.error("Hata  Login Api" , error);

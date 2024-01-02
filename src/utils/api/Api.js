@@ -49,6 +49,26 @@ export const Login = (loginModel) => {
     return api.post("/Account/Login", loginModel);
 };
 
+// export const ShareList = () => { 
+//     return api.get("Share/GetSharePlaceLists");
+// };
+export const ShareList = (page, pageSize) => { 
+    return api.get(`Share/GetSharePlaceListByPage?page=${page}&pageSize=${pageSize}`);
+};
+
+export const CommentByListId = (listid) => { 
+    return api.get(`/comment/getcommentbylistid/${listid}`);
+};
+
+export const CommentPost = (commentModel) => {
+    return api.post("/comment", commentModel);
+};
+
+export const CommentCount = (listid) => {
+    var count = api.get(`/comment/getCommentCount/${listid}`)
+    return count;
+};
+
 // export const getPlace = (placeId) => {
 // return api.get(`/places/${placeId}`);
 // };

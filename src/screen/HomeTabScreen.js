@@ -9,12 +9,14 @@ import { getDataByKey } from '../utils/AsyncStorage/AsyncStorageUtils';
 import InformationSharePlaceList from '../components/molecules/InformationSharePlaceList';
 import Geolocation from 'react-native-geolocation-service';
 import Spinner from '../components/atoms/Spinner';
+import { useNavigation } from '@react-navigation/native';
 
 
 
 
 
 export default function HomeTabScreen() {
+  const navigation = useNavigation();
   const [places, setPlaces] = useState([]); 
   useEffect(() => {
     // AsyncStorage'den verileri al
@@ -79,36 +81,20 @@ export default function HomeTabScreen() {
   return (
     <View style={styles.container}> 
       <View style={[styles.cell, styles.cellTopLeft]}>
-        <ScrollView>
-          <Text style={{textAlign: 'center'}}>Share Places</Text>
-      {places.map((place) => (
-      <InformationSharePlace
-            placeId={place.id}
-            key={place.id}
-            title={place.name}
-            imageSource={require('../assets/black.png')}
-            desc={place.description}
-            container={styles.sharePlace}
-            image_style={styles.image_style}
-            title_style={styles.title_style}
-            desc_style={styles.desc_style}
-          />
-          ))}
-        </ScrollView>
-      </View>
-      <View style={[styles.cell, styles.cellTopRight]}>
-          <Button>Tutorial</Button>
-          <Button>Giriş Yap</Button>
-          <Button>Üye Ol</Button>
-      </View>
-      <View style={[styles.cell, styles.cellBottomLeft]}>
-      {weatherData ? (
+       
+        {weatherData ? (
         <WeatherData weatherData={weatherData} /> 
       ) : (
         <Spinner size={'large'} />
       )}
       </View>
-      <View style={[styles.cell, styles.cellBottomRight]}>
+      <View style={[styles.cell, styles.cellTopRight]}>
+          <Button>Tutorial</Button>
+          <Button onPress={() => navigation.navigate('AccountLogin')}>Giriş Yap</Button>
+          <Button onPress={() => navigation.navigate('Register')}>Üye Ol</Button>
+      </View>
+      
+      <View style={[styles.cell1, styles.cellBottomRight]}>
           <Text>Share Place Lists</Text>
         <InformationSharePlaceList
         placeshow_container_style={styles.placeshow_container_style} 
@@ -129,6 +115,16 @@ const styles = StyleSheet.create({
   },
   cell: {
     width: '48%',
+    height: '48%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: 'gray',
+    borderRadius: 10,
+    margin: 2,
+  },
+  cell1: {
+    width: '98%',
     height: '48%',
     justifyContent: 'center',
     alignItems: 'center',
@@ -166,7 +162,7 @@ const styles = StyleSheet.create({
   listContainer:{
     borderRadius: 10,
     flexDirection: 'row',
-    width: 150,
+    width: 350,
   },
   placeshow_container_style:{
     // flexDirection:'row',

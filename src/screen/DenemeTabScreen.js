@@ -4,17 +4,7 @@ import React from 'react'
 export default function DenemeTabScreen({navigation}) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        
-        <Button
-          title="Accoun/Login"
-          onPress={() => navigation.navigate('AccountLogin')}
-        />
-  
-        <Button
-          title="Account/Register"
-          onPress={() => navigation.navigate('Register')}
-        />
-  
+      
         <Button
           title="Storage"
           onPress={() => navigation.navigate('Storage')}
